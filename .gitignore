@@ -3,14 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Environment directories
+# Virtual environments
 .env/
 .venv/
 venv/
 
-# History file (generated at runtime)
+# Log / history
 history.json
 
-# VSCode, macOS, etc.
+# IDE / OS files
 .vscode/
 .DS_Store
