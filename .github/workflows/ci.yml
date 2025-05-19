@@ -1,6 +1,6 @@
 name: 🚀 CI & Build
 
-# Run on pushes to main and allow manual one-click runs
+# Trigger on pushes to main, and allow manual one-click runs
 on:
   push:
     branches: [ main ]
@@ -8,24 +8,24 @@ on:
 
 jobs:
   lint-and-validate:
-    name: 🔍 Lint & JSON-validate
+    name: 🔍 Lint & Validate JSON
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install dev deps
-        run: pip install --no-cache-dir -r requirements.txt
+      - name: Install dev dependencies
+        run: pip install --no-cache-dir flake8 pytest
 
-      - name: Lint Python
+      - name: Lint Python code
         run: flake8 main.py
 
-      - name: Validate JSON
+      - name: Validate JSON config
         run: python -m json.tool config.json
 
   test:
@@ -33,24 +33,31 @@ jobs:
     needs: lint-and-validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install test deps
-        run: pip install --no-cache-dir -r requirements.txt
+      - name: Install test deps & run pytest
+        run: |
+          pip install --no-cache-dir pytest
+          pytest --maxfail=1 --disable-warnings -q || echo "No tests to run"
 
-      - name: Run pytest
-        run: pytest --maxfail=1 --disable-warnings -q || echo "No tests found"
-
-  build-docker:
-    name: 🐳 Build Docker Image
+  build-and-run-docker:
+    name: 🐳 Build & Run Docker Image
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Build image
+      - name: Build Docker image
         run: docker build -t scratch-calculator:ci .
+
+      - name: Run calculator in container
+        run: |
+          echo "2 + 3 = $(docker run --rm scratch-calculator:ci add 2 3)"
+          echo "6 × 7 = $(docker run --rm scratch-calculator:ci mul 6 7)"
