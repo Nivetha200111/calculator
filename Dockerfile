@@ -11,5 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Default command (runs your calculator)
+# Default command (not actually run in CI)
 CMD ["python3", "main.py"]
