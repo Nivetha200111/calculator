@@ -41,7 +41,7 @@ expression = ""
 
 
 def on_button_click(value):
-    """Handle button‐click events: update display or evaluate."""
+    """Handle button-click events: update display or evaluate."""
     global expression
 
     if value == "=":
