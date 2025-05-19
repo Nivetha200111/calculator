@@ -3,7 +3,6 @@
 import json
 import os
 import tkinter as tk
-
 from datetime import datetime
 
 
@@ -23,7 +22,7 @@ def save_history(expr, result):
     entry = {
         "timestamp": datetime.now().isoformat(),
         "expression": expr,
-        "result": result,
+        "result": result
     }
 
     if os.path.exists(HISTORY_PATH):
@@ -61,57 +60,60 @@ def on_button_click(value):
         display.set(expression)
 
 
-# ─── Build the GUI ────────────────────────────────────────────────────────
+# Build the GUI
 config = load_config()
 
 root = tk.Tk()
 root.title("JSON-Driven Scratch Calculator")
 
 display = tk.StringVar()
+
 entry = tk.Entry(
     root,
     textvariable=display,
     font=("Arial", 24),
     bd=10,
     relief="sunken",
-    justify="right",
+    justify="right"
 )
 entry.grid(
     row=0,
     column=0,
     columnspan=4,
-    sticky="nsew",
+    sticky="nsew"
 )
 
-# Create buttons from config
-for r, row_buttons in enumerate(config["buttons"], start=1):
-    for c, label in enumerate(row_buttons):
-        btn = tk.Button(
-            root,
-            text=label,
-            font=("Arial", 20),
-            command=lambda v=label: on_button_click(v),
-        )
-        btn.grid(row=r, column=c, sticky="nsew")
+
+def create_buttons():
+    """Create calculator buttons based on config."""
+    for r, row_buttons in enumerate(config["buttons"], start=1):
+        for c, label in enumerate(row_buttons):
+            btn = tk.Button(
+                root,
+                text=label,
+                font=("Arial", 20),
+                command=lambda v=label: on_button_click(v)
+            )
+            btn.grid(row=r, column=c, sticky="nsew")
 
 
-# Add a Clear button below
+create_buttons()
+
 clear_btn = tk.Button(
     root,
     text="C",
     font=("Arial", 20),
     bg="#f66",
     fg="white",
-    command=lambda: on_button_click("C"),
+    command=lambda: on_button_click("C")
 )
 clear_btn.grid(
     row=len(config["buttons"]) + 1,
     column=0,
     columnspan=4,
-    sticky="nsew",
+    sticky="nsew"
 )
 
-# Make rows/columns expand equally
 for i in range(len(config["buttons"]) + 2):
     root.grid_rowconfigure(i, weight=1)
 
