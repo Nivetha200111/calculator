@@ -1,15 +1,15 @@
-# Use a minimal Python base image
+# Use a minimal Python base
 FROM python:3.10-slim
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy and install Python dependencies
+# Install dependencies
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy your application code
+# Copy the app code
 COPY . .
 
-# Default command (in CI this just verifies the container builds)
+# Default command to verify build
 CMD ["python3", "main.py"]
