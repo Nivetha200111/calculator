@@ -8,8 +8,8 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy your application code
 COPY . .
 
-# Default command (not actually run in CI)
+# Default command: run the calculator (in CI this just verifies the container builds)
 CMD ["python3", "main.py"]
