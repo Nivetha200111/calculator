@@ -1,7 +1,7 @@
-# Use a minimal Python image
+# Use a minimal Python base image
 FROM python:3.10-slim
 
-# Set working directory in the container
+# Set the working directory
 WORKDIR /app
 
 # Copy and install Python dependencies
@@ -11,5 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy your application code
 COPY . .
 
-# Default command: run the calculator (in CI this just verifies the container builds)
+# Default command (in CI this just verifies the container builds)
 CMD ["python3", "main.py"]
