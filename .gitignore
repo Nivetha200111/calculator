@@ -1,7 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
+# Environment directories
+.env/
+.venv/
+venv/
 
-pycache/
-*.pyc
-*.pyo
-.DS_Store
+# History file (generated at runtime)
 history.json
+
+# VSCode, macOS, etc.
+.vscode/
+.DS_Store
