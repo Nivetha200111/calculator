@@ -1,0 +1,7 @@
+
+
+pycache/
+*.pyc
+*.pyo
+.DS_Store
+history.json
